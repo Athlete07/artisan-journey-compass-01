@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { ChevronRight, ChevronLeft, Upload, Check, Building, CreditCard, Globe, Shield } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Upload, Check, Building, CreditCard, Globe, Shield, Plane } from 'lucide-react';
 
 const BuyerOnboarding = () => {
   const [step, setStep] = useState(1);
@@ -17,17 +17,28 @@ const BuyerOnboarding = () => {
     companyName: '',
     companyType: '',
     registrationNumber: '',
+    vatNumber: '',
     taxId: '',
-    gstNumber: '',
     incorporationDate: '',
     businessAddress: '',
     country: '',
     state: '',
     city: '',
-    pincode: '',
+    postalCode: '',
     phone: '',
     email: '',
     website: '',
+    dunsNumber: '',
+    
+    // International Trade Information
+    primaryMarkets: [] as string[],
+    sourceCountries: [] as string[],
+    tradingExperience: '',
+    annualImportValue: '',
+    preferredIncoterms: [] as string[],
+    currencyPreferences: [] as string[],
+    timeZone: '',
+    businessLanguages: [] as string[],
     
     // Contact Person Details
     contactPersonName: '',
@@ -38,7 +49,7 @@ const BuyerOnboarding = () => {
     alternateEmail: '',
     alternatePhone: '',
     
-    // Business Profile
+    // Business Profile & Compliance
     businessCategory: '',
     productCategories: [] as string[],
     annualTurnover: '',
@@ -46,30 +57,46 @@ const BuyerOnboarding = () => {
     yearsInBusiness: '',
     targetMarkets: [] as string[],
     preferredSuppliers: '',
-    qualityCertifications: '' as string,
+    qualityCertifications: '',
+    complianceStandards: [] as string[],
+    sustainabilityRequirements: '',
     
-    // EXIM Details
+    // International Trade & Licensing
     importLicense: '',
     exportLicense: '',
     ieCode: '',
+    eoriNumber: '',
     customsRegistration: '',
+    freightForwarder: '',
+    customsBroker: '',
     bankingPartner: '',
     creditRating: '',
     paymentTermsPreference: '',
+    letterOfCreditBank: '',
+    tradeFinanceLimit: '',
+    
+    // Regulatory Compliance
+    regulatoryLicenses: '',
+    productCertifications: [] as string[],
+    restrictedProducts: '',
+    sanctionsCompliance: '',
+    amlKycCompliance: '',
     
     // Documents
     incorporationCertificate: null as File | null,
-    gstCertificate: null as File | null,
+    taxCertificate: null as File | null,
     bankStatement: null as File | null,
     tradeLicense: null as File | null,
-    ieCodeCertificate: null as File | null,
+    importLicense: null as File | null,
     financialStatements: null as File | null,
+    complianceCertificates: null as File | null,
+    dunsReport: null as File | null,
   });
 
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({
@@ -99,45 +126,104 @@ const BuyerOnboarding = () => {
 
   const handleSubmit = () => {
     toast({
-      title: "Application Submitted Successfully",
-      description: "Your buyer onboarding application is under review. You'll receive an email within 24-48 hours.",
+      title: "International Buyer Application Submitted",
+      description: "Your global buyer onboarding application is under review. Our international compliance team will contact you within 48-72 hours.",
     });
     navigate('/dashboard');
   };
 
   const companyTypes = [
-    'Private Limited Company',
+    'Corporation/Ltd Company',
     'Public Limited Company',
-    'Partnership Firm',
-    'Limited Liability Partnership (LLP)',
+    'Partnership',
+    'Limited Liability Company (LLC)',
     'Sole Proprietorship',
-    'Government Organization',
-    'NGO/Trust/Society',
-    'Multinational Corporation'
+    'Government Entity',
+    'Multinational Corporation',
+    'Trading House',
+    'Cooperative',
+    'Joint Venture'
   ];
 
   const businessCategories = [
-    'Retailer',
-    'Wholesaler',
-    'Distributor',
-    'Manufacturer',
-    'E-commerce Platform',
-    'Trading House',
+    'International Retailer',
+    'Global Wholesaler',
+    'Distribution Company',
+    'Import Trading House',
+    'E-commerce Marketplace',
+    'Department Store Chain',
+    'Specialty Store Chain',
+    'Corporate Procurement',
     'Government Procurement',
-    'Corporate Gifting'
+    'Brand Manufacturer',
+    'Private Label Company'
   ];
 
   const productCategories = [
     'Textiles & Apparel',
     'Handicrafts & Artworks',
-    'Jewelry & Accessories',
-    'Home Decor',
-    'Furniture',
-    'Leather Goods',
+    'Jewelry & Precious Items',
+    'Home Decor & Furnishing',
+    'Furniture & Woodwork',
+    'Leather Goods & Accessories',
     'Spices & Food Products',
-    'Ayurvedic & Wellness',
-    'Electronics & Technology',
-    'Automotive Parts'
+    'Ayurvedic & Wellness Products',
+    'Carpets & Rugs',
+    'Metalwork & Brass Items',
+    'Ceramics & Pottery',
+    'Organic & Natural Products'
+  ];
+
+  const countries = [
+    'United States', 'United Kingdom', 'Germany', 'France', 'Canada', 'Australia',
+    'Netherlands', 'Italy', 'Spain', 'Belgium', 'Switzerland', 'Sweden',
+    'Norway', 'Denmark', 'Japan', 'South Korea', 'Singapore', 'UAE',
+    'Saudi Arabia', 'Brazil', 'Mexico', 'South Africa', 'New Zealand'
+  ];
+
+  const incoterms = [
+    'FOB (Free On Board)',
+    'CIF (Cost, Insurance & Freight)',
+    'CFR (Cost & Freight)',
+    'EXW (Ex Works)',
+    'FCA (Free Carrier)',
+    'CPT (Carriage Paid To)',
+    'CIP (Carriage & Insurance Paid)',
+    'DAP (Delivered At Place)',
+    'DPU (Delivered At Place Unloaded)',
+    'DDP (Delivered Duty Paid)'
+  ];
+
+  const currencies = [
+    'USD - US Dollar',
+    'EUR - Euro',
+    'GBP - British Pound',
+    'CAD - Canadian Dollar',
+    'AUD - Australian Dollar',
+    'JPY - Japanese Yen',
+    'CHF - Swiss Franc',
+    'SEK - Swedish Krona',
+    'NOK - Norwegian Krone',
+    'SGD - Singapore Dollar'
+  ];
+
+  const complianceStandards = [
+    'ISO 9001 (Quality Management)',
+    'ISO 14001 (Environmental)',
+    'OEKO-TEX Standards',
+    'GOTS (Global Organic Textile)',
+    'Fair Trade Certified',
+    'BSCI (Business Social Compliance)',
+    'WRAP (Worldwide Responsible Apparel)',
+    'CE Marking (European Conformity)',
+    'FDA Compliance',
+    'REACH Compliance (EU Chemical)'
+  ];
+
+  const productCertifications = [
+    'CE Marking', 'FDA Approval', 'CPSIA Compliance', 'REACH Compliance',
+    'RoHS Compliance', 'FCC Certification', 'UL Listing', 'CSA Certification',
+    'JIS Standards', 'BIS Certification', 'ISI Mark', 'Hallmark Certification'
   ];
 
   const renderStepContent = () => {
@@ -147,8 +233,8 @@ const BuyerOnboarding = () => {
           <div className="space-y-6">
             <div className="text-center mb-6">
               <Building className="w-16 h-16 mx-auto text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold">Company Information</h2>
-              <p className="text-slate-600">Basic details about your organization</p>
+              <h2 className="text-2xl font-bold">International Company Information</h2>
+              <p className="text-slate-600">Basic details about your global organization</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
@@ -182,17 +268,27 @@ const BuyerOnboarding = () => {
                   id="registrationNumber"
                   value={formData.registrationNumber}
                   onChange={(e) => handleInputChange('registrationNumber', e.target.value)}
-                  placeholder="CIN/Registration number"
+                  placeholder="Legal registration number"
                 />
               </div>
               
               <div>
-                <Label htmlFor="gstNumber">GST Number *</Label>
+                <Label htmlFor="vatNumber">VAT/Tax Number *</Label>
                 <Input
-                  id="gstNumber"
-                  value={formData.gstNumber}
-                  onChange={(e) => handleInputChange('gstNumber', e.target.value)}
-                  placeholder="15-digit GST number"
+                  id="vatNumber"
+                  value={formData.vatNumber}
+                  onChange={(e) => handleInputChange('vatNumber', e.target.value)}
+                  placeholder="VAT/Sales Tax ID"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="dunsNumber">D-U-N-S Number</Label>
+                <Input
+                  id="dunsNumber"
+                  value={formData.dunsNumber}
+                  onChange={(e) => handleInputChange('dunsNumber', e.target.value)}
+                  placeholder="9-digit D-U-N-S Number"
                 />
               </div>
               
@@ -207,13 +303,30 @@ const BuyerOnboarding = () => {
               </div>
               
               <div>
-                <Label htmlFor="website">Company Website</Label>
+                <Label htmlFor="website">Company Website *</Label>
                 <Input
                   id="website"
                   value={formData.website}
                   onChange={(e) => handleInputChange('website', e.target.value)}
                   placeholder="https://www.company.com"
                 />
+              </div>
+              
+              <div>
+                <Label htmlFor="timeZone">Primary Time Zone *</Label>
+                <Select value={formData.timeZone} onValueChange={(value) => handleInputChange('timeZone', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your time zone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="EST">EST (Eastern Standard Time)</SelectItem>
+                    <SelectItem value="PST">PST (Pacific Standard Time)</SelectItem>
+                    <SelectItem value="GMT">GMT (Greenwich Mean Time)</SelectItem>
+                    <SelectItem value="CET">CET (Central European Time)</SelectItem>
+                    <SelectItem value="JST">JST (Japan Standard Time)</SelectItem>
+                    <SelectItem value="AEST">AEST (Australian Eastern Time)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             
@@ -223,7 +336,7 @@ const BuyerOnboarding = () => {
                 id="businessAddress"
                 value={formData.businessAddress}
                 onChange={(e) => handleInputChange('businessAddress', e.target.value)}
-                placeholder="Complete business address"
+                placeholder="Complete business address including building, street, area"
                 rows={3}
               />
             </div>
@@ -231,21 +344,25 @@ const BuyerOnboarding = () => {
             <div className="grid md:grid-cols-4 gap-4">
               <div>
                 <Label htmlFor="country">Country *</Label>
-                <Input
-                  id="country"
-                  value={formData.country}
-                  onChange={(e) => handleInputChange('country', e.target.value)}
-                  placeholder="India"
-                />
+                <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country} value={country}>{country}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               
               <div>
-                <Label htmlFor="state">State *</Label>
+                <Label htmlFor="state">State/Province *</Label>
                 <Input
                   id="state"
                   value={formData.state}
                   onChange={(e) => handleInputChange('state', e.target.value)}
-                  placeholder="State name"
+                  placeholder="State/Province"
                 />
               </div>
               
@@ -260,12 +377,12 @@ const BuyerOnboarding = () => {
               </div>
               
               <div>
-                <Label htmlFor="pincode">Pincode *</Label>
+                <Label htmlFor="postalCode">Postal Code *</Label>
                 <Input
-                  id="pincode"
-                  value={formData.pincode}
-                  onChange={(e) => handleInputChange('pincode', e.target.value)}
-                  placeholder="6-digit pincode"
+                  id="postalCode"
+                  value={formData.postalCode}
+                  onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                  placeholder="ZIP/Postal code"
                 />
               </div>
             </div>
@@ -273,6 +390,118 @@ const BuyerOnboarding = () => {
         );
 
       case 2:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <Globe className="w-16 h-16 mx-auto text-blue-600 mb-4" />
+              <h2 className="text-2xl font-bold">International Trade Profile</h2>
+              <p className="text-slate-600">Your global trading experience and preferences</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="tradingExperience">Years in International Trade *</Label>
+                <Select value={formData.tradingExperience} onValueChange={(value) => handleInputChange('tradingExperience', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select experience level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="new">New to International Trade</SelectItem>
+                    <SelectItem value="1-3">1-3 years</SelectItem>
+                    <SelectItem value="3-5">3-5 years</SelectItem>
+                    <SelectItem value="5-10">5-10 years</SelectItem>
+                    <SelectItem value="10+">10+ years</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="annualImportValue">Annual Import Value *</Label>
+                <Select value={formData.annualImportValue} onValueChange={(value) => handleInputChange('annualImportValue', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select import volume" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="under-100k">Under $100,000</SelectItem>
+                    <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
+                    <SelectItem value="500k-1m">$500,000 - $1,000,000</SelectItem>
+                    <SelectItem value="1m-5m">$1,000,000 - $5,000,000</SelectItem>
+                    <SelectItem value="5m-10m">$5,000,000 - $10,000,000</SelectItem>
+                    <SelectItem value="above-10m">Above $10,000,000</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div>
+              <Label>Primary Markets/Countries You Sell To *</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2 max-h-40 overflow-y-auto">
+                {countries.map((country) => (
+                  <label key={country} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.primaryMarkets.includes(country)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('primaryMarkets', [...formData.primaryMarkets, country]);
+                        } else {
+                          handleInputChange('primaryMarkets', formData.primaryMarkets.filter(c => c !== country));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{country}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <Label>Preferred Incoterms *</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                {incoterms.map((term) => (
+                  <label key={term} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.preferredIncoterms.includes(term)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('preferredIncoterms', [...formData.preferredIncoterms, term]);
+                        } else {
+                          handleInputChange('preferredIncoterms', formData.preferredIncoterms.filter(t => t !== term));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{term}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <Label>Preferred Transaction Currencies *</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                {currencies.map((currency) => (
+                  <label key={currency} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.currencyPreferences.includes(currency)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('currencyPreferences', [...formData.currencyPreferences, currency]);
+                        } else {
+                          handleInputChange('currencyPreferences', formData.currencyPreferences.filter(c => c !== currency));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{currency}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 3:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
@@ -300,7 +529,7 @@ const BuyerOnboarding = () => {
                     id="designation"
                     value={formData.designation}
                     onChange={(e) => handleInputChange('designation', e.target.value)}
-                    placeholder="CEO, Manager, etc."
+                    placeholder="CEO, Procurement Manager, etc."
                   />
                 </div>
                 
@@ -316,12 +545,12 @@ const BuyerOnboarding = () => {
                 </div>
                 
                 <div>
-                  <Label htmlFor="contactPhone">Phone Number *</Label>
+                  <Label htmlFor="contactPhone">Phone Number (with country code) *</Label>
                   <Input
                     id="contactPhone"
                     value={formData.contactPhone}
                     onChange={(e) => handleInputChange('contactPhone', e.target.value)}
-                    placeholder="+91 XXXXX XXXXX"
+                    placeholder="+1 XXX XXX XXXX"
                   />
                 </div>
               </div>
@@ -357,21 +586,43 @@ const BuyerOnboarding = () => {
                     id="alternatePhone"
                     value={formData.alternatePhone}
                     onChange={(e) => handleInputChange('alternatePhone', e.target.value)}
-                    placeholder="+91 XXXXX XXXXX"
+                    placeholder="+1 XXX XXX XXXX"
                   />
                 </div>
+              </div>
+            </div>
+            
+            <div>
+              <Label>Business Languages *</Label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
+                {['English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Japanese', 'Mandarin'].map((language) => (
+                  <label key={language} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.businessLanguages.includes(language)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('businessLanguages', [...formData.businessLanguages, language]);
+                        } else {
+                          handleInputChange('businessLanguages', formData.businessLanguages.filter(l => l !== language));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{language}</span>
+                  </label>
+                ))}
               </div>
             </div>
           </div>
         );
 
-      case 3:
+      case 4:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <Globe className="w-16 h-16 mx-auto text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold">Business Profile</h2>
-              <p className="text-slate-600">Tell us about your business requirements</p>
+              <Plane className="w-16 h-16 mx-auto text-blue-600 mb-4" />
+              <h2 className="text-2xl font-bold">Business Profile & Requirements</h2>
+              <p className="text-slate-600">Your business needs and quality standards</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
@@ -390,17 +641,18 @@ const BuyerOnboarding = () => {
               </div>
               
               <div>
-                <Label htmlFor="annualTurnover">Annual Turnover *</Label>
+                <Label htmlFor="annualTurnover">Annual Company Turnover *</Label>
                 <Select value={formData.annualTurnover} onValueChange={(value) => handleInputChange('annualTurnover', value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select turnover range" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="below-10-lakhs">Below ₹10 Lakhs</SelectItem>
-                    <SelectItem value="10-50-lakhs">₹10 Lakhs - ₹50 Lakhs</SelectItem>
-                    <SelectItem value="50-lakhs-2-crores">₹50 Lakhs - ₹2 Crores</SelectItem>
-                    <SelectItem value="2-10-crores">₹2 Crores - ₹10 Crores</SelectItem>
-                    <SelectItem value="above-10-crores">Above ₹10 Crores</SelectItem>
+                    <SelectItem value="under-1m">Under $1 Million</SelectItem>
+                    <SelectItem value="1m-5m">$1M - $5M</SelectItem>
+                    <SelectItem value="5m-25m">$5M - $25M</SelectItem>
+                    <SelectItem value="25m-100m">$25M - $100M</SelectItem>
+                    <SelectItem value="100m-500m">$100M - $500M</SelectItem>
+                    <SelectItem value="above-500m">Above $500M</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -415,8 +667,8 @@ const BuyerOnboarding = () => {
                     <SelectItem value="1-10">1-10</SelectItem>
                     <SelectItem value="11-50">11-50</SelectItem>
                     <SelectItem value="51-200">51-200</SelectItem>
-                    <SelectItem value="201-500">201-500</SelectItem>
-                    <SelectItem value="above-500">Above 500</SelectItem>
+                    <SelectItem value="201-1000">201-1000</SelectItem>
+                    <SelectItem value="above-1000">Above 1000</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -432,7 +684,8 @@ const BuyerOnboarding = () => {
                     <SelectItem value="1-3">1-3 years</SelectItem>
                     <SelectItem value="3-5">3-5 years</SelectItem>
                     <SelectItem value="5-10">5-10 years</SelectItem>
-                    <SelectItem value="above-10">Above 10 years</SelectItem>
+                    <SelectItem value="10-25">10-25 years</SelectItem>
+                    <SelectItem value="above-25">Above 25 years</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -461,35 +714,57 @@ const BuyerOnboarding = () => {
             </div>
             
             <div>
-              <Label htmlFor="preferredSuppliers">Preferred Supplier Characteristics</Label>
+              <Label>Required Compliance Standards & Certifications</Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                {complianceStandards.map((standard) => (
+                  <label key={standard} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.complianceStandards.includes(standard)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('complianceStandards', [...formData.complianceStandards, standard]);
+                        } else {
+                          handleInputChange('complianceStandards', formData.complianceStandards.filter(s => s !== standard));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{standard}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="sustainabilityRequirements">Sustainability & ESG Requirements</Label>
               <Textarea
-                id="preferredSuppliers"
-                value={formData.preferredSuppliers}
-                onChange={(e) => handleInputChange('preferredSuppliers', e.target.value)}
-                placeholder="Describe your ideal suppliers (location, certifications, production capacity, etc.)"
+                id="sustainabilityRequirements"
+                value={formData.sustainabilityRequirements}
+                onChange={(e) => handleInputChange('sustainabilityRequirements', e.target.value)}
+                placeholder="Describe your sustainability requirements, ESG compliance needs, ethical sourcing standards, etc."
                 rows={3}
               />
             </div>
           </div>
         );
 
-      case 4:
+      case 5:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
               <CreditCard className="w-16 h-16 mx-auto text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold">EXIM & Compliance Details</h2>
-              <p className="text-slate-600">Export-Import and regulatory information</p>
+              <h2 className="text-2xl font-bold">Trade Finance & Banking</h2>
+              <p className="text-slate-600">International payment and trade finance details</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="ieCode">IEC (Import Export Code)</Label>
+                <Label htmlFor="eoriNumber">EORI Number (EU buyers)</Label>
                 <Input
-                  id="ieCode"
-                  value={formData.ieCode}
-                  onChange={(e) => handleInputChange('ieCode', e.target.value)}
-                  placeholder="10-digit IEC number"
+                  id="eoriNumber"
+                  value={formData.eoriNumber}
+                  onChange={(e) => handleInputChange('eoriNumber', e.target.value)}
+                  placeholder="Economic Operator Registration ID"
                 />
               </div>
               
@@ -499,7 +774,7 @@ const BuyerOnboarding = () => {
                   id="customsRegistration"
                   value={formData.customsRegistration}
                   onChange={(e) => handleInputChange('customsRegistration', e.target.value)}
-                  placeholder="Customs registration"
+                  placeholder="Import customs registration"
                 />
               </div>
               
@@ -509,8 +784,34 @@ const BuyerOnboarding = () => {
                   id="bankingPartner"
                   value={formData.bankingPartner}
                   onChange={(e) => handleInputChange('bankingPartner', e.target.value)}
-                  placeholder="Bank name for transactions"
+                  placeholder="Bank name for international transactions"
                 />
+              </div>
+              
+              <div>
+                <Label htmlFor="letterOfCreditBank">Letter of Credit Issuing Bank</Label>
+                <Input
+                  id="letterOfCreditBank"
+                  value={formData.letterOfCreditBank}
+                  onChange={(e) => handleInputChange('letterOfCreditBank', e.target.value)}
+                  placeholder="Bank that issues L/Cs"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="tradeFinanceLimit">Trade Finance Limit</Label>
+                <Select value={formData.tradeFinanceLimit} onValueChange={(value) => handleInputChange('tradeFinanceLimit', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select finance limit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="under-100k">Under $100,000</SelectItem>
+                    <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
+                    <SelectItem value="500k-1m">$500,000 - $1,000,000</SelectItem>
+                    <SelectItem value="1m-5m">$1,000,000 - $5,000,000</SelectItem>
+                    <SelectItem value="above-5m">Above $5,000,000</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <div>
@@ -531,6 +832,26 @@ const BuyerOnboarding = () => {
                 </Select>
               </div>
               
+              <div>
+                <Label htmlFor="freightForwarder">Preferred Freight Forwarder</Label>
+                <Input
+                  id="freightForwarder"
+                  value={formData.freightForwarder}
+                  onChange={(e) => handleInputChange('freightForwarder', e.target.value)}
+                  placeholder="Logistics company name"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="customsBroker">Customs Broker</Label>
+                <Input
+                  id="customsBroker"
+                  value={formData.customsBroker}
+                  onChange={(e) => handleInputChange('customsBroker', e.target.value)}
+                  placeholder="Customs clearance agent"
+                />
+              </div>
+              
               <div className="md:col-span-2">
                 <Label htmlFor="paymentTermsPreference">Preferred Payment Terms *</Label>
                 <Select value={formData.paymentTermsPreference} onValueChange={(value) => handleInputChange('paymentTermsPreference', value)}>
@@ -538,47 +859,63 @@ const BuyerOnboarding = () => {
                     <SelectValue placeholder="Select payment preference" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="advance-100">100% Advance</SelectItem>
-                    <SelectItem value="advance-50-balance-shipment">50% Advance + 50% on Shipment</SelectItem>
-                    <SelectItem value="advance-30-balance-delivery">30% Advance + 70% on Delivery</SelectItem>
-                    <SelectItem value="net-30">Net 30 Days</SelectItem>
-                    <SelectItem value="net-60">Net 60 Days</SelectItem>
-                    <SelectItem value="letter-of-credit">Letter of Credit</SelectItem>
+                    <SelectItem value="advance-100">100% Advance Payment</SelectItem>
+                    <SelectItem value="advance-30-balance-bl">30% Advance + 70% against B/L</SelectItem>
+                    <SelectItem value="letter-of-credit">Letter of Credit (L/C)</SelectItem>
+                    <SelectItem value="usance-lc">Usance Letter of Credit</SelectItem>
+                    <SelectItem value="documents-against-payment">Documents Against Payment (D/P)</SelectItem>
+                    <SelectItem value="documents-against-acceptance">Documents Against Acceptance (D/A)</SelectItem>
+                    <SelectItem value="open-account">Open Account</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             
-            <div>
-              <Label htmlFor="qualityCertifications">Quality Certifications & Standards</Label>
-              <Textarea
-                id="qualityCertifications"
-                value={formData.qualityCertifications}
-                onChange={(e) => handleInputChange('qualityCertifications', e.target.value)}
-                placeholder="List any quality certifications required (ISO, BIS, CE, etc.)"
-                rows={3}
-              />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="regulatoryLicenses">Special Import Licenses/Permits</Label>
+                <Textarea
+                  id="regulatoryLicenses"
+                  value={formData.regulatoryLicenses}
+                  onChange={(e) => handleInputChange('regulatoryLicenses', e.target.value)}
+                  placeholder="List any special licenses required for importing your product categories"
+                  rows={3}
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="restrictedProducts">Restricted/Prohibited Products</Label>
+                <Textarea
+                  id="restrictedProducts"
+                  value={formData.restrictedProducts}
+                  onChange={(e) => handleInputChange('restrictedProducts', e.target.value)}
+                  placeholder="Products you cannot import due to local regulations"
+                  rows={3}
+                />
+              </div>
             </div>
           </div>
         );
 
-      case 5:
+      case 6:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
               <Upload className="w-16 h-16 mx-auto text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold">Document Upload</h2>
-              <p className="text-slate-600">Upload required documents for verification</p>
+              <h2 className="text-2xl font-bold">Document Upload & Compliance</h2>
+              <p className="text-slate-600">Upload required documents for international buyer verification</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 { key: 'incorporationCertificate', label: 'Certificate of Incorporation *', required: true },
-                { key: 'gstCertificate', label: 'GST Registration Certificate *', required: true },
-                { key: 'bankStatement', label: 'Bank Statement (Last 3 months) *', required: true },
-                { key: 'tradeLicense', label: 'Trade License', required: false },
-                { key: 'ieCodeCertificate', label: 'IEC Certificate', required: false },
-                { key: 'financialStatements', label: 'Financial Statements (Last 2 years)', required: false },
+                { key: 'taxCertificate', label: 'Tax Registration Certificate *', required: true },
+                { key: 'bankStatement', label: 'Bank Statement (Last 6 months) *', required: true },
+                { key: 'tradeLicense', label: 'Import/Trade License', required: false },
+                { key: 'importLicense', label: 'Import License/IEC Certificate', required: false },
+                { key: 'financialStatements', label: 'Financial Statements (Last 2 years) *', required: true },
+                { key: 'complianceCertificates', label: 'Compliance Certificates', required: false },
+                { key: 'dunsReport', label: 'D&B Credit Report', required: false },
               ].map((doc) => (
                 <div key={doc.key} className="p-4 border-2 border-dashed border-slate-300 rounded-lg hover:border-blue-400 transition-colors">
                   <div className="text-center">
@@ -590,21 +927,49 @@ const BuyerOnboarding = () => {
                       onChange={(e) => handleFileUpload(doc.key, e.target.files?.[0] || null)}
                       accept=".pdf,.jpg,.jpeg,.png"
                     />
-                    <p className="text-xs text-slate-500 mt-1">PDF, JPG, PNG (Max 5MB)</p>
+                    <p className="text-xs text-slate-500 mt-1">PDF, JPG, PNG (Max 10MB)</p>
                   </div>
                 </div>
               ))}
             </div>
             
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
-              <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• All documents should be clear and legible</li>
-                <li>• File size should not exceed 5MB per document</li>
-                <li>• Documents marked with * are mandatory</li>
-                <li>• Verification may take 24-48 hours</li>
-                <li>• You'll receive email updates on application status</li>
-              </ul>
+            <div className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 className="font-semibold text-blue-800 mb-2">Compliance Declaration:</h3>
+                <div className="space-y-2 text-sm text-blue-700">
+                  <label className="flex items-start space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.sanctionsCompliance === 'yes'}
+                      onChange={(e) => handleInputChange('sanctionsCompliance', e.target.checked ? 'yes' : '')}
+                      className="mt-1"
+                    />
+                    <span>I confirm that my company is not on any international sanctions list and complies with all applicable trade restrictions.</span>
+                  </label>
+                  <label className="flex items-start space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.amlKycCompliance === 'yes'}
+                      onChange={(e) => handleInputChange('amlKycCompliance', e.target.checked ? 'yes' : '')}
+                      className="mt-1"
+                    />
+                    <span>I agree to comply with AML/KYC requirements and provide additional documentation if requested.</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h3 className="font-semibold text-yellow-800 mb-2">Important Notes:</h3>
+                <ul className="text-sm text-yellow-700 space-y-1">
+                  <li>• All documents should be in English or accompanied by certified translations</li>
+                  <li>• Documents should be notarized or apostilled as required by your jurisdiction</li>
+                  <li>• File size should not exceed 10MB per document</li>
+                  <li>• Documents marked with * are mandatory for international buyers</li>
+                  <li>• Verification process may take 3-5 business days</li>
+                  <li>• Additional documentation may be requested based on your country's regulations</li>
+                  <li>• You'll receive email updates on application status and compliance requirements</li>
+                </ul>
+              </div>
             </div>
           </div>
         );
@@ -616,13 +981,13 @@ const BuyerOnboarding = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-5xl mx-auto px-4">
         <Card className="backdrop-blur-sm bg-white/80 border-white/20 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Buyer Onboarding
+              International Buyer Onboarding
             </CardTitle>
-            <p className="text-slate-600">Complete your registration to start sourcing from verified artisans</p>
+            <p className="text-slate-600">Complete your registration to start sourcing authentic Indian products globally</p>
             
             {/* Progress Bar */}
             <div className="mt-6">
