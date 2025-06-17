@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import OrderTracking from "./pages/OrderTracking";
 import ArtisanInsights from "./pages/ArtisanInsights";
+import BuyerOnboarding from "./pages/BuyerOnboarding";
+import ArtisanOnboarding from "./pages/ArtisanOnboarding";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -27,6 +29,8 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/orders" element={<OrderTracking />} />
             <Route path="/artisans" element={<ArtisanInsights />} />
+            <Route path="/buyer-onboarding" element={<BuyerOnboarding />} />
+            <Route path="/artisan-onboarding" element={<ArtisanOnboarding />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

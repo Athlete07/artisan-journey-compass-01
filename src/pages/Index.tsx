@@ -47,12 +47,32 @@ const Index = () => {
               <p className="text-sm text-slate-600">Escrow system ensuring fair and timely payments for all parties</p>
             </div>
           </div>
-          <Button 
-            onClick={() => navigate('/login')} 
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-8 py-3 text-lg rounded-xl"
-          >
-            Get Started
-          </Button>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              onClick={() => navigate('/login')} 
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-8 py-3 text-lg rounded-xl"
+            >
+              Login to Dashboard
+            </Button>
+            
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Button 
+                onClick={() => navigate('/artisan-onboarding')} 
+                variant="outline"
+                className="border-purple-300 text-purple-700 hover:bg-purple-50 px-6 py-3 rounded-xl"
+              >
+                Join as Artisan
+              </Button>
+              <Button 
+                onClick={() => navigate('/buyer-onboarding')} 
+                variant="outline"
+                className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl"
+              >
+                Join as Buyer
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
