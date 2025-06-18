@@ -43,10 +43,10 @@ const ArtisanOnboarding = () => {
     gstNumber: '',
     udyamNumber: '',
     ieCode: '',
-    fssaiLicense: '',
-    iso9001: '',
-    iso14001: '',
-    iso45001: '',
+    fssaiLicenseNumber: '',
+    iso9001Certificate: '',
+    iso14001Certificate: '',
+    iso45001Certificate: '',
     otherCertifications: '',
     
     // Banking Information
@@ -68,7 +68,7 @@ const ArtisanOnboarding = () => {
     // Export & International Trade
     exportExperience: '',
     exportCountries: [] as string[],
-    exportTurnover: '',
+    exportTurnoverAmount: '',
     tradeAssociations: '',
     internationalCertifications: '',
     
@@ -88,7 +88,7 @@ const ArtisanOnboarding = () => {
     
     // Financial Information
     annualTurnover: '',
-    exportTurnover: '',
+    exportTurnoverFinancial: '',
     workingCapital: '',
     creditRating: '',
     
