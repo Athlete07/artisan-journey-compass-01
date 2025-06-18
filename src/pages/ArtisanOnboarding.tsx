@@ -8,83 +8,106 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { ChevronRight, ChevronLeft, Upload, Check, User, Palette, FileText, Camera, Award } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Upload, Check, User, Briefcase, FileText, Camera, Award, Package } from 'lucide-react';
 
 const ArtisanOnboarding = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    // Personal Information
-    fullName: '',
-    dateOfBirth: '',
-    gender: '',
-    fatherSpouseName: '',
-    aadhaarNumber: '',
-    panNumber: '',
-    phone: '',
-    email: '',
-    alternatePhone: '',
+    // Business Type & Basic Information
+    businessType: '',
+    entityName: '',
+    brandName: '',
+    registrationNumber: '',
+    incorporationDate: '',
+    businessNature: '',
+    
+    // Contact Information
+    contactPersonName: '',
+    designation: '',
+    primaryPhone: '',
+    secondaryPhone: '',
+    primaryEmail: '',
+    secondaryEmail: '',
+    websiteUrl: '',
     
     // Address Details
-    currentAddress: '',
-    permanentAddress: '',
+    registeredAddress: '',
+    operationalAddress: '',
+    country: '',
     state: '',
-    district: '',
-    block: '',
-    village: '',
+    city: '',
     pincode: '',
-    nearestLandmark: '',
     
-    // Artisan Profile
-    craftSpecialty: '',
-    craftSubcategory: '',
-    experienceYears: '',
-    learningSource: '',
-    masterArtisan: '',
-    toolsEquipment: '',
-    workshopDetails: '',
-    productionCapacity: '',
-    qualityGrade: '',
-    
-    // Business Information
-    businessType: '',
-    businessName: '',
-    businessRegistration: '',
+    // Legal & Compliance
+    panNumber: '',
     gstNumber: '',
     udyamNumber: '',
-    bankAccountNumber: '',
+    ieCode: '',
+    fssaiLicense: '',
+    iso9001: '',
+    iso14001: '',
+    iso45001: '',
+    otherCertifications: '',
+    
+    // Banking Information
     bankName: '',
+    accountNumber: '',
     ifscCode: '',
-    accountHolderName: '',
+    swiftCode: '',
+    accountType: '',
     
-    // Skill Assessment
-    primarySkills: [] as string[],
-    certifications: '',
-    awards: '',
-    exhibitions: '',
-    trainingPrograms: '',
-    innovationProjects: '',
+    // Product & Manufacturing
+    productCategories: [] as string[],
+    primaryProducts: '',
+    manufacturingCapacity: '',
+    qualityStandards: [] as string[],
+    productionFacilities: '',
+    equipmentDetails: '',
+    rawMaterialSources: '',
     
-    // Market Readiness
-    productRange: '',
-    priceRange: '',
-    targetMarket: '',
-    distributionChannels: '',
-    digitalLiteracy: '',
-    languagesProficient: [] as string[],
+    // Export & International Trade
+    exportExperience: '',
+    exportCountries: [] as string[],
+    exportTurnover: '',
+    tradeAssociations: '',
+    internationalCertifications: '',
+    
+    // Market Information
+    targetMarkets: [] as string[],
+    distributionChannels: [],
+    competitiveAdvantages: '',
+    sustainabilityPractices: '',
+    
+    // Team & Infrastructure
+    totalEmployees: '',
+    technicalTeam: '',
+    qcTeam: '',
+    salesTeam: '',
+    rndCapability: '',
+    digitalCapabilities: '',
+    
+    // Financial Information
+    annualTurnover: '',
+    exportTurnover: '',
+    workingCapital: '',
+    creditRating: '',
     
     // Documents
-    aadhaarCard: null as File | null,
+    incorporationCertificate: null as File | null,
     panCard: null as File | null,
-    bankPassbook: null as File | null,
-    craftCertificate: null as File | null,
+    gstCertificate: null as File | null,
+    bankStatement: null as File | null,
+    auditReport: null as File | null,
+    productCatalog: null as File | null,
+    qualityCertificates: [] as File[],
+    facilityPhotos: [] as File[],
     productPhotos: [] as File[],
-    workshopPhotos: [] as File[],
   });
 
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const totalSteps = 6;
+  const totalSteps = 7;
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({
@@ -115,33 +138,73 @@ const ArtisanOnboarding = () => {
   const handleSubmit = () => {
     toast({
       title: "Application Submitted Successfully",
-      description: "Your artisan profile is under review. You'll receive an email within 24-48 hours with your verification status.",
+      description: "Your business profile is under review. You'll receive an email within 48-72 hours with your verification status.",
     });
     navigate('/dashboard');
   };
 
-  const craftSpecialties = [
-    'Textiles & Weaving',
-    'Pottery & Ceramics',
-    'Metalwork & Jewelry',
-    'Woodwork & Furniture',
-    'Leather Crafts',
-    'Stone Carving',
-    'Painting & Art',
-    'Embroidery & Needlework',
-    'Basket Weaving',
-    'Glass Work',
-    'Paper Crafts',
-    'Traditional Toys'
+  const businessTypes = [
+    'Individual Artisan',
+    'Micro Enterprise (up to ₹1 Cr)',
+    'Small Enterprise (₹1-10 Cr)',
+    'Medium Enterprise (₹10-50 Cr)',
+    'Large Enterprise (₹50+ Cr)',
+    'Cooperative Society',
+    'Self Help Group',
+    'Producer Company',
+    'Private Limited Company',
+    'Public Limited Company',
+    'Partnership Firm',
+    'Limited Liability Partnership'
   ];
 
-  const experienceRanges = [
-    'Less than 1 year',
-    '1-3 years',
-    '3-5 years',
-    '5-10 years',
-    '10-20 years',
-    'More than 20 years'
+  const productCategories = [
+    'Textiles & Apparel',
+    'Handicrafts & Handloom',
+    'Jewelry & Gems',
+    'Leather Products',
+    'Food & Beverages',
+    'Spices & Condiments',
+    'Tea & Coffee',
+    'Organic Products',
+    'Ayurvedic & Herbal',
+    'Cosmetics & Personal Care',
+    'Home Decor & Furnishing',
+    'Wooden Products',
+    'Metal Crafts',
+    'Ceramic & Pottery',
+    'Carpets & Rugs',
+    'Electronics & IT',
+    'Automotive Parts',
+    'Engineering Goods',
+    'Chemicals & Pharmaceuticals',
+    'Agricultural Products',
+    'Marine Products',
+    'Processed Foods',
+    'Toys & Sports Goods',
+    'Musical Instruments',
+    'Art & Paintings'
+  ];
+
+  const qualityStandards = [
+    'ISO 9001:2015',
+    'ISO 14001:2015',
+    'ISO 45001:2018',
+    'HACCP',
+    'BRC',
+    'SQF',
+    'FSSAI',
+    'FDA',
+    'CE Marking',
+    'CPSIA',
+    'REACH',
+    'RoHS',
+    'FairTrade',
+    'GOTS',
+    'OEKO-TEX',
+    'GI Tag',
+    'Hallmark',
+    'BIS'
   ];
 
   const renderStepContent = () => {
@@ -150,96 +213,124 @@ const ArtisanOnboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <User className="w-16 h-16 mx-auto text-purple-600 mb-4" />
-              <h2 className="text-2xl font-bold">Personal Information</h2>
-              <p className="text-slate-600">Basic details for identity verification</p>
+              <Briefcase className="w-16 h-16 mx-auto text-purple-600 mb-4" />
+              <h2 className="text-2xl font-bold">Business Information</h2>
+              <p className="text-slate-600">Tell us about your business entity</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="fullName">Full Name *</Label>
-                <Input
-                  id="fullName"
-                  value={formData.fullName}
-                  onChange={(e) => handleInputChange('fullName', e.target.value)}
-                  placeholder="As per Aadhaar card"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
-                <Input
-                  id="dateOfBirth"
-                  type="date"
-                  value={formData.dateOfBirth}
-                  onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="gender">Gender *</Label>
-                <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
+                <Label htmlFor="businessType">Business Type *</Label>
+                <Select value={formData.businessType} onValueChange={(value) => handleInputChange('businessType', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select gender" />
+                    <SelectValue placeholder="Select business type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    {businessTypes.map((type) => (
+                      <SelectItem key={type} value={type}>{type}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               
               <div>
-                <Label htmlFor="fatherSpouseName">Father's/Spouse's Name *</Label>
+                <Label htmlFor="entityName">Legal Entity Name *</Label>
                 <Input
-                  id="fatherSpouseName"
-                  value={formData.fatherSpouseName}
-                  onChange={(e) => handleInputChange('fatherSpouseName', e.target.value)}
-                  placeholder="As per official documents"
+                  id="entityName"
+                  value={formData.entityName}
+                  onChange={(e) => handleInputChange('entityName', e.target.value)}
+                  placeholder="As per registration documents"
                 />
               </div>
               
               <div>
-                <Label htmlFor="aadhaarNumber">Aadhaar Number *</Label>
+                <Label htmlFor="brandName">Brand/Trade Name</Label>
                 <Input
-                  id="aadhaarNumber"
-                  value={formData.aadhaarNumber}
-                  onChange={(e) => handleInputChange('aadhaarNumber', e.target.value)}
-                  placeholder="12-digit Aadhaar number"
-                  maxLength={12}
+                  id="brandName"
+                  value={formData.brandName}
+                  onChange={(e) => handleInputChange('brandName', e.target.value)}
+                  placeholder="Your brand name"
                 />
               </div>
               
               <div>
-                <Label htmlFor="panNumber">PAN Number</Label>
+                <Label htmlFor="registrationNumber">Registration Number *</Label>
                 <Input
-                  id="panNumber"
-                  value={formData.panNumber}
-                  onChange={(e) => handleInputChange('panNumber', e.target.value)}
-                  placeholder="10-character PAN number"
-                  maxLength={10}
+                  id="registrationNumber"
+                  value={formData.registrationNumber}
+                  onChange={(e) => handleInputChange('registrationNumber', e.target.value)}
+                  placeholder="CIN/Registration number"
                 />
               </div>
               
               <div>
-                <Label htmlFor="phone">Mobile Number *</Label>
+                <Label htmlFor="incorporationDate">Date of Incorporation *</Label>
                 <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
-                  placeholder="+91 XXXXX XXXXX"
+                  id="incorporationDate"
+                  type="date"
+                  value={formData.incorporationDate}
+                  onChange={(e) => handleInputChange('incorporationDate', e.target.value)}
                 />
               </div>
               
               <div>
-                <Label htmlFor="email">Email ID</Label>
+                <Label htmlFor="businessNature">Nature of Business *</Label>
+                <Select value={formData.businessNature} onValueChange={(value) => handleInputChange('businessNature', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select business nature" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="manufacturer">Manufacturer</SelectItem>
+                    <SelectItem value="trader">Trader</SelectItem>
+                    <SelectItem value="exporter">Exporter</SelectItem>
+                    <SelectItem value="importer">Importer</SelectItem>
+                    <SelectItem value="service-provider">Service Provider</SelectItem>
+                    <SelectItem value="retailer">Retailer</SelectItem>
+                    <SelectItem value="wholesaler">Wholesaler</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="contactPersonName">Contact Person Name *</Label>
                 <Input
-                  id="email"
+                  id="contactPersonName"
+                  value={formData.contactPersonName}
+                  onChange={(e) => handleInputChange('contactPersonName', e.target.value)}
+                  placeholder="Primary contact person"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="designation">Designation *</Label>
+                <Input
+                  id="designation"
+                  value={formData.designation}
+                  onChange={(e) => handleInputChange('designation', e.target.value)}
+                  placeholder="CEO, MD, Owner, etc."
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="primaryEmail">Primary Email *</Label>
+                <Input
+                  id="primaryEmail"
                   type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  placeholder="your.email@example.com"
+                  value={formData.primaryEmail}
+                  onChange={(e) => handleInputChange('primaryEmail', e.target.value)}
+                  placeholder="business@example.com"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="primaryPhone">Primary Phone *</Label>
+                <Input
+                  id="primaryPhone"
+                  value={formData.primaryPhone}
+                  onChange={(e) => handleInputChange('primaryPhone', e.target.value)}
+                  placeholder="+91 XXXXX XXXXX"
                 />
               </div>
             </div>
@@ -251,17 +342,17 @@ const ArtisanOnboarding = () => {
           <div className="space-y-6">
             <div className="text-center mb-6">
               <FileText className="w-16 h-16 mx-auto text-purple-600 mb-4" />
-              <h2 className="text-2xl font-bold">Address Details</h2>
-              <p className="text-slate-600">Current and permanent address information</p>
+              <h2 className="text-2xl font-bold">Address & Legal Details</h2>
+              <p className="text-slate-600">Business address and legal compliance information</p>
             </div>
             
             <div>
-              <Label htmlFor="currentAddress">Current Address *</Label>
+              <Label htmlFor="registeredAddress">Registered Address *</Label>
               <Textarea
-                id="currentAddress"
-                value={formData.currentAddress}
-                onChange={(e) => handleInputChange('currentAddress', e.target.value)}
-                placeholder="House number, street, locality"
+                id="registeredAddress"
+                value={formData.registeredAddress}
+                onChange={(e) => handleInputChange('registeredAddress', e.target.value)}
+                placeholder="Complete registered address as per documents"
                 rows={3}
               />
             </div>
@@ -272,86 +363,114 @@ const ArtisanOnboarding = () => {
                 id="sameAddress"
                 onChange={(e) => {
                   if (e.target.checked) {
-                    handleInputChange('permanentAddress', formData.currentAddress);
+                    handleInputChange('operationalAddress', formData.registeredAddress);
                   }
                 }}
               />
-              <Label htmlFor="sameAddress">Permanent address same as current address</Label>
+              <Label htmlFor="sameAddress">Operational address same as registered address</Label>
             </div>
             
             <div>
-              <Label htmlFor="permanentAddress">Permanent Address *</Label>
+              <Label htmlFor="operationalAddress">Operational Address *</Label>
               <Textarea
-                id="permanentAddress"
-                value={formData.permanentAddress}
-                onChange={(e) => handleInputChange('permanentAddress', e.target.value)}
-                placeholder="House number, street, locality"
+                id="operationalAddress"
+                value={formData.operationalAddress}
+                onChange={(e) => handleInputChange('operationalAddress', e.target.value)}
+                placeholder="Complete operational address"
                 rows={3}
               />
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-4 gap-4">
               <div>
-                <Label htmlFor="state">State *</Label>
+                <Label htmlFor="country">Country *</Label>
+                <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="india">India</SelectItem>
+                    <SelectItem value="usa">United States</SelectItem>
+                    <SelectItem value="uk">United Kingdom</SelectItem>
+                    <SelectItem value="germany">Germany</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="state">State/Province *</Label>
                 <Input
                   id="state"
                   value={formData.state}
                   onChange={(e) => handleInputChange('state', e.target.value)}
-                  placeholder="State name"
+                  placeholder="State or province"
                 />
               </div>
               
               <div>
-                <Label htmlFor="district">District *</Label>
+                <Label htmlFor="city">City *</Label>
                 <Input
-                  id="district"
-                  value={formData.district}
-                  onChange={(e) => handleInputChange('district', e.target.value)}
-                  placeholder="District name"
+                  id="city"
+                  value={formData.city}
+                  onChange={(e) => handleInputChange('city', e.target.value)}
+                  placeholder="City name"
                 />
               </div>
               
               <div>
-                <Label htmlFor="block">Block/Tehsil</Label>
-                <Input
-                  id="block"
-                  value={formData.block}
-                  onChange={(e) => handleInputChange('block', e.target.value)}
-                  placeholder="Block or Tehsil"
-                />
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-4">
-              <div>
-                <Label htmlFor="village">Village/City *</Label>
-                <Input
-                  id="village"
-                  value={formData.village}
-                  onChange={(e) => handleInputChange('village', e.target.value)}
-                  placeholder="Village or city name"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="pincode">Pincode *</Label>
+                <Label htmlFor="pincode">Postal Code *</Label>
                 <Input
                   id="pincode"
                   value={formData.pincode}
                   onChange={(e) => handleInputChange('pincode', e.target.value)}
-                  placeholder="6-digit pincode"
-                  maxLength={6}
+                  placeholder="Postal/ZIP code"
                 />
               </div>
-              
-              <div>
-                <Label htmlFor="nearestLandmark">Nearest Landmark</Label>
-                <Input
-                  id="nearestLandmark"
-                  value={formData.nearestLandmark}
-                  onChange={(e) => handleInputChange('nearestLandmark', e.target.value)}
-                  placeholder="School, temple, etc."
-                />
+            </div>
+            
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-blue-800 mb-4">Legal Compliance Documents</h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="panNumber">PAN Number *</Label>
+                  <Input
+                    id="panNumber"
+                    value={formData.panNumber}
+                    onChange={(e) => handleInputChange('panNumber', e.target.value)}
+                    placeholder="10-character PAN"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="gstNumber">GST Number</Label>
+                  <Input
+                    id="gstNumber"
+                    value={formData.gstNumber}
+                    onChange={(e) => handleInputChange('gstNumber', e.target.value)}
+                    placeholder="15-character GSTIN"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="udyamNumber">Udyam Registration</Label>
+                  <Input
+                    id="udyamNumber"
+                    value={formData.udyamNumber}
+                    onChange={(e) => handleInputChange('udyamNumber', e.target.value)}
+                    placeholder="UDYAM-XX-XX-XXXXXXX"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="ieCode">IEC Code</Label>
+                  <Input
+                    id="ieCode"
+                    value={formData.ieCode}
+                    onChange={(e) => handleInputChange('ieCode', e.target.value)}
+                    placeholder="10-digit IEC code"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -361,111 +480,99 @@ const ArtisanOnboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <Palette className="w-16 h-16 mx-auto text-purple-600 mb-4" />
-              <h2 className="text-2xl font-bold">Artisan Profile</h2>
-              <p className="text-slate-600">Tell us about your craft and expertise</p>
+              <Package className="w-16 h-16 mx-auto text-purple-600 mb-4" />
+              <h2 className="text-2xl font-bold">Products & Manufacturing</h2>
+              <p className="text-slate-600">Details about your products and production capabilities</p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="craftSpecialty">Primary Craft Specialty *</Label>
-                <Select value={formData.craftSpecialty} onValueChange={(value) => handleInputChange('craftSpecialty', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your main craft" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {craftSpecialties.map((craft) => (
-                      <SelectItem key={craft} value={craft}>{craft}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label htmlFor="craftSubcategory">Craft Subcategory</Label>
-                <Input
-                  id="craftSubcategory"
-                  value={formData.craftSubcategory}
-                  onChange={(e) => handleInputChange('craftSubcategory', e.target.value)}
-                  placeholder="e.g., Banarasi sarees, Blue pottery"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="experienceYears">Years of Experience *</Label>
-                <Select value={formData.experienceYears} onValueChange={(value) => handleInputChange('experienceYears', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select experience range" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {experienceRanges.map((range) => (
-                      <SelectItem key={range} value={range}>{range}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label htmlFor="learningSource">How did you learn this craft? *</Label>
-                <Select value={formData.learningSource} onValueChange={(value) => handleInputChange('learningSource', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select learning source" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="family-tradition">Family Tradition</SelectItem>
-                    <SelectItem value="master-artisan">Master Artisan</SelectItem>
-                    <SelectItem value="training-institute">Training Institute</SelectItem>
-                    <SelectItem value="government-program">Government Program</SelectItem>
-                    <SelectItem value="ngo-program">NGO Program</SelectItem>
-                    <SelectItem value="self-taught">Self-taught</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="md:col-span-2">
-                <Label htmlFor="masterArtisan">Master Artisan/Guru Name</Label>
-                <Input
-                  id="masterArtisan"
-                  value={formData.masterArtisan}
-                  onChange={(e) => handleInputChange('masterArtisan', e.target.value)}
-                  placeholder="Name of your teacher/mentor"
-                />
+            <div>
+              <Label>Product Categories *</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2 max-h-48 overflow-y-auto">
+                {productCategories.map((category) => (
+                  <label key={category} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.productCategories.includes(category)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('productCategories', [...formData.productCategories, category]);
+                        } else {
+                          handleInputChange('productCategories', formData.productCategories.filter(c => c !== category));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{category}</span>
+                  </label>
+                ))}
               </div>
             </div>
             
             <div>
-              <Label htmlFor="toolsEquipment">Tools & Equipment Available *</Label>
+              <Label htmlFor="primaryProducts">Primary Products *</Label>
               <Textarea
-                id="toolsEquipment"
-                value={formData.toolsEquipment}
-                onChange={(e) => handleInputChange('toolsEquipment', e.target.value)}
-                placeholder="List the tools and equipment you have for your craft"
-                rows={3}
+                id="primaryProducts"
+                value={formData.primaryProducts}
+                onChange={(e) => handleInputChange('primaryProducts', e.target.value)}
+                placeholder="Describe your main products, specifications, and variants"
+                rows={4}
               />
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="workshopDetails">Workshop/Workspace Details</Label>
+                <Label htmlFor="manufacturingCapacity">Manufacturing Capacity *</Label>
                 <Textarea
-                  id="workshopDetails"
-                  value={formData.workshopDetails}
-                  onChange={(e) => handleInputChange('workshopDetails', e.target.value)}
-                  placeholder="Describe your workspace (size, location, setup)"
+                  id="manufacturingCapacity"
+                  value={formData.manufacturingCapacity}
+                  onChange={(e) => handleInputChange('manufacturingCapacity', e.target.value)}
+                  placeholder="Monthly/Annual production capacity"
                   rows={3}
                 />
               </div>
               
               <div>
-                <Label htmlFor="productionCapacity">Monthly Production Capacity</Label>
+                <Label htmlFor="productionFacilities">Production Facilities</Label>
                 <Textarea
-                  id="productionCapacity"
-                  value={formData.productionCapacity}
-                  onChange={(e) => handleInputChange('productionCapacity', e.target.value)}
-                  placeholder="How many pieces can you make per month?"
+                  id="productionFacilities"
+                  value={formData.productionFacilities}
+                  onChange={(e) => handleInputChange('productionFacilities', e.target.value)}
+                  placeholder="Details about your manufacturing facilities"
                   rows={3}
                 />
               </div>
+            </div>
+            
+            <div>
+              <Label>Quality Standards & Certifications</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                {qualityStandards.map((standard) => (
+                  <label key={standard} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.qualityStandards.includes(standard)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('qualityStandards', [...formData.qualityStandards, standard]);
+                        } else {
+                          handleInputChange('qualityStandards', formData.qualityStandards.filter(s => s !== standard));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{standard}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="rawMaterialSources">Raw Material Sources</Label>
+              <Textarea
+                id="rawMaterialSources"
+                value={formData.rawMaterialSources}
+                onChange={(e) => handleInputChange('rawMaterialSources', e.target.value)}
+                placeholder="Sources of raw materials, suppliers, sustainability practices"
+                rows={3}
+              />
             </div>
           </div>
         );
@@ -474,83 +581,245 @@ const ArtisanOnboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <FileText className="w-16 h-16 mx-auto text-purple-600 mb-4" />
-              <h2 className="text-2xl font-bold">Business Information</h2>
-              <p className="text-slate-600">Banking and business registration details</p>
+              <Award className="w-16 h-16 mx-auto text-purple-600 mb-4" />
+              <h2 className="text-2xl font-bold">Export & International Trade</h2>
+              <p className="text-slate-600">Your international business experience and capabilities</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="businessType">Business Type *</Label>
-                <Select value={formData.businessType} onValueChange={(value) => handleInputChange('businessType', value)}>
+                <Label htmlFor="exportExperience">Export Experience</Label>
+                <Select value={formData.exportExperience} onValueChange={(value) => handleInputChange('exportExperience', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select business type" />
+                    <SelectValue placeholder="Years of export experience" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="individual">Individual Artisan</SelectItem>
-                    <SelectItem value="partnership">Partnership</SelectItem>
-                    <SelectItem value="self-help-group">Self Help Group</SelectItem>
-                    <SelectItem value="cooperative">Cooperative Society</SelectItem>
-                    <SelectItem value="private-limited">Private Limited Company</SelectItem>
-                    <SelectItem value="proprietorship">Sole Proprietorship</SelectItem>
+                    <SelectItem value="new">New to Export</SelectItem>
+                    <SelectItem value="1-2">1-2 years</SelectItem>
+                    <SelectItem value="3-5">3-5 years</SelectItem>
+                    <SelectItem value="5-10">5-10 years</SelectItem>
+                    <SelectItem value="10+">10+ years</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               
               <div>
-                <Label htmlFor="businessName">Business Name</Label>
-                <Input
-                  id="businessName"
-                  value={formData.businessName}
-                  onChange={(e) => handleInputChange('businessName', e.target.value)}
-                  placeholder="If you have a business name"
+                <Label htmlFor="exportTurnover">Annual Export Turnover (USD)</Label>
+                <Select value={formData.exportTurnover} onValueChange={(value) => handleInputChange('exportTurnover', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">No exports yet</SelectItem>
+                    <SelectItem value="1-50k">$1K - $50K</SelectItem>
+                    <SelectItem value="50k-100k">$50K - $100K</SelectItem>
+                    <SelectItem value="100k-500k">$100K - $500K</SelectItem>
+                    <SelectItem value="500k-1m">$500K - $1M</SelectItem>
+                    <SelectItem value="1m-5m">$1M - $5M</SelectItem>
+                    <SelectItem value="5m+">$5M+</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div>
+              <Label>Export Countries (Current/Target)</Label>
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mt-2">
+                {['USA', 'UK', 'Germany', 'France', 'Italy', 'Japan', 'Australia', 'Canada', 'UAE', 'Saudi Arabia', 'Singapore', 'Netherlands', 'Spain', 'South Korea', 'Other'].map((country) => (
+                  <label key={country} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.exportCountries.includes(country)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('exportCountries', [...formData.exportCountries, country]);
+                        } else {
+                          handleInputChange('exportCountries', formData.exportCountries.filter(c => c !== country));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{country}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="tradeAssociations">Trade Associations/Memberships</Label>
+                <Textarea
+                  id="tradeAssociations"
+                  value={formData.tradeAssociations}
+                  onChange={(e) => handleInputChange('tradeAssociations', e.target.value)}
+                  placeholder="List memberships in trade bodies, chambers of commerce"
+                  rows={3}
                 />
               </div>
               
               <div>
-                <Label htmlFor="gstNumber">GST Number</Label>
-                <Input
-                  id="gstNumber"
-                  value={formData.gstNumber}
-                  onChange={(e) => handleInputChange('gstNumber', e.target.value)}
-                  placeholder="15-digit GST number"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="udyamNumber">Udyam Registration Number</Label>
-                <Input
-                  id="udyamNumber"
-                  value={formData.udyamNumber}
-                  onChange={(e) => handleInputChange('udyamNumber', e.target.value)}
-                  placeholder="UDYAM-XX-XX-XXXXXXX"
+                <Label htmlFor="internationalCertifications">International Certifications</Label>
+                <Textarea
+                  id="internationalCertifications"
+                  value={formData.internationalCertifications}
+                  onChange={(e) => handleInputChange('internationalCertifications', e.target.value)}
+                  placeholder="FDA, CE, FCC, CPSIA, etc."
+                  rows={3}
                 />
               </div>
             </div>
             
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-blue-800 mb-4">Banking Details *</h3>
+            <div>
+              <Label>Target Markets</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+                {['B2B Wholesale', 'B2C Retail', 'E-commerce Platforms', 'Government Contracts', 'Institutional Sales', 'Private Label/OEM'].map((market) => (
+                  <label key={market} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      checked={formData.targetMarkets.includes(market)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          handleInputChange('targetMarkets', [...formData.targetMarkets, market]);
+                        } else {
+                          handleInputChange('targetMarkets', formData.targetMarkets.filter(m => m !== market));
+                        }
+                      }}
+                    />
+                    <span className="text-sm">{market}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <User className="w-16 h-16 mx-auto text-purple-600 mb-4" />
+              <h2 className="text-2xl font-bold">Team & Infrastructure</h2>
+              <p className="text-slate-600">Your organizational capabilities and resources</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="totalEmployees">Total Employees</Label>
+                <Select value={formData.totalEmployees} onValueChange={(value) => handleInputChange('totalEmployees', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1-5">1-5</SelectItem>
+                    <SelectItem value="6-20">6-20</SelectItem>
+                    <SelectItem value="21-50">21-50</SelectItem>
+                    <SelectItem value="51-100">51-100</SelectItem>
+                    <SelectItem value="101-250">101-250</SelectItem>
+                    <SelectItem value="250+">250+</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="technicalTeam">Technical Team Size</Label>
+                <Input
+                  id="technicalTeam"
+                  value={formData.technicalTeam}
+                  onChange={(e) => handleInputChange('technicalTeam', e.target.value)}
+                  placeholder="Number of technical staff"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="qcTeam">Quality Control Team</Label>
+                <Input
+                  id="qcTeam"
+                  value={formData.qcTeam}
+                  onChange={(e) => handleInputChange('qcTeam', e.target.value)}
+                  placeholder="QC team size"
+                />
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="rndCapability">R&D Capabilities</Label>
+                <Textarea
+                  id="rndCapability"
+                  value={formData.rndCapability}
+                  onChange={(e) => handleInputChange('rndCapability', e.target.value)}
+                  placeholder="Research & Development capabilities, innovation projects"
+                  rows={3}
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="digitalCapabilities">Digital Capabilities</Label>
+                <Textarea
+                  id="digitalCapabilities"
+                  value={formData.digitalCapabilities}
+                  onChange={(e) => handleInputChange('digitalCapabilities', e.target.value)}
+                  placeholder="ERP systems, digital marketing, e-commerce experience"
+                  rows={3}
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="sustainabilityPractices">Sustainability Practices</Label>
+              <Textarea
+                id="sustainabilityPractices"
+                value={formData.sustainabilityPractices}
+                onChange={(e) => handleInputChange('sustainabilityPractices', e.target.value)}
+                placeholder="Environmental initiatives, social responsibility, ethical practices"
+                rows={4}
+              />
+            </div>
+            
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-green-800 mb-4">Financial Information</h3>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="accountHolderName">Account Holder Name *</Label>
-                  <Input
-                    id="accountHolderName"
-                    value={formData.accountHolderName}
-                    onChange={(e) => handleInputChange('accountHolderName', e.target.value)}
-                    placeholder="As per bank records"
-                  />
+                  <Label htmlFor="annualTurnover">Annual Turnover (INR)</Label>
+                  <Select value={formData.annualTurnover} onValueChange={(value) => handleInputChange('annualTurnover', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="<1cr">Less than ₹1 Cr</SelectItem>
+                      <SelectItem value="1-5cr">₹1-5 Cr</SelectItem>
+                      <SelectItem value="5-25cr">₹5-25 Cr</SelectItem>
+                      <SelectItem value="25-100cr">₹25-100 Cr</SelectItem>
+                      <SelectItem value="100cr+">₹100+ Cr</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <div>
-                  <Label htmlFor="bankAccountNumber">Bank Account Number *</Label>
+                  <Label htmlFor="creditRating">Credit Rating</Label>
                   <Input
-                    id="bankAccountNumber"
-                    value={formData.bankAccountNumber}
-                    onChange={(e) => handleInputChange('bankAccountNumber', e.target.value)}
-                    placeholder="Account number"
+                    id="creditRating"
+                    value={formData.creditRating}
+                    onChange={(e) => handleInputChange('creditRating', e.target.value)}
+                    placeholder="CRISIL/ICRA rating if available"
                   />
                 </div>
-                
+              </div>
+            </div>
+          </div>
+        );
+
+      case 6:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-6">
+              <FileText className="w-16 h-16 mx-auto text-purple-600 mb-4" />
+              <h2 className="text-2xl font-bold">Banking & Financial Details</h2>
+              <p className="text-slate-600">Banking information for transactions and payments</p>
+            </div>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h3 className="font-semibold text-blue-800 mb-4">Primary Banking Details *</h3>
+              <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="bankName">Bank Name *</Label>
                   <Input
@@ -558,6 +827,16 @@ const ArtisanOnboarding = () => {
                     value={formData.bankName}
                     onChange={(e) => handleInputChange('bankName', e.target.value)}
                     placeholder="Name of your bank"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="accountNumber">Account Number *</Label>
+                  <Input
+                    id="accountNumber"
+                    value={formData.accountNumber}
+                    onChange={(e) => handleInputChange('accountNumber', e.target.value)}
+                    placeholder="Bank account number"
                   />
                 </div>
                 
@@ -571,171 +850,88 @@ const ArtisanOnboarding = () => {
                     maxLength={11}
                   />
                 </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 5:
-        return (
-          <div className="space-y-6">
-            <div className="text-center mb-6">
-              <Award className="w-16 h-16 mx-auto text-purple-600 mb-4" />
-              <h2 className="text-2xl font-bold">Skills & Market Readiness</h2>
-              <p className="text-slate-600">Your capabilities and market preparation</p>
-            </div>
-            
-            <div>
-              <Label>Primary Skills *</Label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
-                {[
-                  'Design Creation',
-                  'Color Coordination',
-                  'Pattern Making',
-                  'Hand Painting',
-                  'Machine Operation',
-                  'Quality Control',
-                  'Packaging',
-                  'Customer Service',
-                  'Digital Photography',
-                  'Online Selling'
-                ].map((skill) => (
-                  <label key={skill} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      checked={formData.primarySkills.includes(skill)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          handleInputChange('primarySkills', [...formData.primarySkills, skill]);
-                        } else {
-                          handleInputChange('primarySkills', formData.primarySkills.filter(s => s !== skill));
-                        }
-                      }}
-                    />
-                    <span className="text-sm">{skill}</span>
-                  </label>
-                ))}
+                
+                <div>
+                  <Label htmlFor="swiftCode">SWIFT Code</Label>
+                  <Input
+                    id="swiftCode"
+                    value={formData.swiftCode}
+                    onChange={(e) => handleInputChange('swiftCode', e.target.value)}
+                    placeholder="For international transactions"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="accountType">Account Type *</Label>
+                  <Select value={formData.accountType} onValueChange={(value) => handleInputChange('accountType', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select account type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="current">Current Account</SelectItem>
+                      <SelectItem value="savings">Savings Account</SelectItem>
+                      <SelectItem value="cc-od">CC/OD Account</SelectItem>
+                      <SelectItem value="escrow">Escrow Account</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
             
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="productRange">Product Range *</Label>
-                <Textarea
-                  id="productRange"
-                  value={formData.productRange}
-                  onChange={(e) => handleInputChange('productRange', e.target.value)}
-                  placeholder="List the products you can make"
-                  rows={3}
+                <Label htmlFor="secondaryEmail">Secondary Email</Label>
+                <Input
+                  id="secondaryEmail"
+                  type="email"
+                  value={formData.secondaryEmail}
+                  onChange={(e) => handleInputChange('secondaryEmail', e.target.value)}
+                  placeholder="Alternate email for notifications"
                 />
               </div>
               
               <div>
-                <Label htmlFor="priceRange">Price Range *</Label>
-                <Textarea
-                  id="priceRange"
-                  value={formData.priceRange}
-                  onChange={(e) => handleInputChange('priceRange', e.target.value)}
-                  placeholder="Typical price range for your products"
-                  rows={3}
+                <Label htmlFor="websiteUrl">Website URL</Label>
+                <Input
+                  id="websiteUrl"
+                  type="url"
+                  value={formData.websiteUrl}
+                  onChange={(e) => handleInputChange('websiteUrl', e.target.value)}
+                  placeholder="https://yourwebsite.com"
                 />
-              </div>
-              
-              <div>
-                <Label htmlFor="targetMarket">Target Market</Label>
-                <Select value={formData.targetMarket} onValueChange={(value) => handleInputChange('targetMarket', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Who do you want to sell to?" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="local">Local Market</SelectItem>
-                    <SelectItem value="regional">Regional Market</SelectItem>
-                    <SelectItem value="national">National Market</SelectItem>
-                    <SelectItem value="international">International Market</SelectItem>
-                    <SelectItem value="online">Online Platforms</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label htmlFor="digitalLiteracy">Digital Literacy Level</Label>
-                <Select value={formData.digitalLiteracy} onValueChange={(value) => handleInputChange('digitalLiteracy', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Your comfort with technology" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="beginner">Beginner</SelectItem>
-                    <SelectItem value="intermediate">Intermediate</SelectItem>
-                    <SelectItem value="advanced">Advanced</SelectItem>
-                    <SelectItem value="expert">Expert</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
             </div>
             
             <div>
-              <Label>Languages You Can Communicate In</Label>
-              <div className="grid grid-cols-3 md:grid-cols-4 gap-2 mt-2">
-                {['Hindi', 'English', 'Bengali', 'Tamil', 'Telugu', 'Marathi', 'Gujarati', 'Punjabi', 'Kannada', 'Malayalam', 'Odia', 'Urdu'].map((language) => (
-                  <label key={language} className="flex items-center space-x-2 p-2 border rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      checked={formData.languagesProficient.includes(language)}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          handleInputChange('languagesProficient', [...formData.languagesProficient, language]);
-                        } else {
-                          handleInputChange('languagesProficient', formData.languagesProficient.filter(l => l !== language));
-                        }
-                      }}
-                    />
-                    <span className="text-sm">{language}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="certifications">Certifications & Training</Label>
-                <Textarea
-                  id="certifications"
-                  value={formData.certifications}
-                  onChange={(e) => handleInputChange('certifications', e.target.value)}
-                  placeholder="Any certifications or training programs completed"
-                  rows={3}
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="awards">Awards & Recognition</Label>
-                <Textarea
-                  id="awards"
-                  value={formData.awards}
-                  onChange={(e) => handleInputChange('awards', e.target.value)}
-                  placeholder="Any awards or recognition received"
-                  rows={3}
-                />
-              </div>
+              <Label htmlFor="competitiveAdvantages">Competitive Advantages</Label>
+              <Textarea
+                id="competitiveAdvantages"
+                value={formData.competitiveAdvantages}
+                onChange={(e) => handleInputChange('competitiveAdvantages', e.target.value)}
+                placeholder="What makes your business unique? Key differentiators, USPs"
+                rows={4}
+              />
             </div>
           </div>
         );
 
-      case 6:
+      case 7:
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
               <Camera className="w-16 h-16 mx-auto text-purple-600 mb-4" />
               <h2 className="text-2xl font-bold">Document Upload</h2>
-              <p className="text-slate-600">Upload required documents and photos</p>
+              <p className="text-slate-600">Upload required business documents and certificates</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
               {[
-                { key: 'aadhaarCard', label: 'Aadhaar Card *', required: true },
-                { key: 'panCard', label: 'PAN Card', required: false },
-                { key: 'bankPassbook', label: 'Bank Passbook/Statement *', required: true },
-                { key: 'craftCertificate', label: 'Craft Certificate (if any)', required: false },
+                { key: 'incorporationCertificate', label: 'Incorporation Certificate *', required: true },
+                { key: 'panCard', label: 'PAN Card *', required: true },
+                { key: 'gstCertificate', label: 'GST Certificate', required: false },
+                { key: 'bankStatement', label: 'Bank Statement *', required: true },
+                { key: 'auditReport', label: 'Latest Audit Report', required: false },
+                { key: 'productCatalog', label: 'Product Catalog *', required: true },
               ].map((doc) => (
                 <div key={doc.key} className="p-4 border-2 border-dashed border-slate-300 rounded-lg hover:border-purple-400 transition-colors">
                   <div className="text-center">
@@ -747,13 +943,31 @@ const ArtisanOnboarding = () => {
                       onChange={(e) => handleFileUpload(doc.key, e.target.files?.[0] || null)}
                       accept=".pdf,.jpg,.jpeg,.png"
                     />
-                    <p className="text-xs text-slate-500 mt-1">PDF, JPG, PNG (Max 5MB)</p>
+                    <p className="text-xs text-slate-500 mt-1">PDF, JPG, PNG (Max 10MB)</p>
                   </div>
                 </div>
               ))}
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-4 border-2 border-dashed border-slate-300 rounded-lg hover:border-purple-400 transition-colors">
+                <div className="text-center">
+                  <Camera className="w-8 h-8 mx-auto text-slate-400 mb-2" />
+                  <Label className="text-sm font-medium">Quality Certificates</Label>
+                  <input
+                    type="file"
+                    multiple
+                    className="mt-2 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || []);
+                      handleInputChange('qualityCertificates', files);
+                    }}
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">ISO, BIS, FDA, CE certificates</p>
+                </div>
+              </div>
+              
               <div className="p-4 border-2 border-dashed border-slate-300 rounded-lg hover:border-purple-400 transition-colors">
                 <div className="text-center">
                   <Camera className="w-8 h-8 mx-auto text-slate-400 mb-2" />
@@ -768,38 +982,38 @@ const ArtisanOnboarding = () => {
                     }}
                     accept=".jpg,.jpeg,.png"
                   />
-                  <p className="text-xs text-slate-500 mt-1">Upload 3-5 photos of your best work</p>
+                  <p className="text-xs text-slate-500 mt-1">High-quality product images</p>
                 </div>
               </div>
               
               <div className="p-4 border-2 border-dashed border-slate-300 rounded-lg hover:border-purple-400 transition-colors">
                 <div className="text-center">
                   <Camera className="w-8 h-8 mx-auto text-slate-400 mb-2" />
-                  <Label className="text-sm font-medium">Workshop Photos</Label>
+                  <Label className="text-sm font-medium">Facility Photos</Label>
                   <input
                     type="file"
                     multiple
                     className="mt-2 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
                     onChange={(e) => {
                       const files = Array.from(e.target.files || []);
-                      handleInputChange('workshopPhotos', files);
+                      handleInputChange('facilityPhotos', files);
                     }}
                     accept=".jpg,.jpeg,.png"
                   />
-                  <p className="text-xs text-slate-500 mt-1">Photos of your workspace/tools</p>
+                  <p className="text-xs text-slate-500 mt-1">Manufacturing facility images</p>
                 </div>
               </div>
             </div>
             
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <h3 className="font-semibold text-purple-800 mb-2">Important Guidelines:</h3>
+              <h3 className="font-semibold text-purple-800 mb-2">Verification Process:</h3>
               <ul className="text-sm text-purple-700 space-y-1">
-                <li>• Ensure all documents are clear and readable</li>
-                <li>• Product photos should showcase your best work</li>
-                <li>• File size should not exceed 5MB per file</li>
-                <li>• Documents marked with * are mandatory</li>
-                <li>• Verification process takes 24-48 hours</li>
-                <li>• You'll receive SMS and email updates</li>
+                <li>• Document verification: 24-48 hours</li>
+                <li>• Business verification: 3-5 business days</li>
+                <li>• Quality assessment: 5-7 business days</li>
+                <li>• Final approval: 7-10 business days</li>
+                <li>• You'll receive regular updates via email and SMS</li>
+                <li>• Dedicated relationship manager will be assigned</li>
               </ul>
             </div>
           </div>
@@ -812,13 +1026,13 @@ const ArtisanOnboarding = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-100 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-5xl mx-auto px-4">
         <Card className="backdrop-blur-sm bg-white/80 border-white/20 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Artisan Onboarding
+              Business Onboarding
             </CardTitle>
-            <p className="text-slate-600">Join our platform and showcase your craft to the world</p>
+            <p className="text-slate-600">Join our global marketplace and expand your business reach</p>
             
             {/* Progress Bar */}
             <div className="mt-6">
