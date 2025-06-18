@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -605,7 +604,7 @@ const ArtisanOnboarding = () => {
               
               <div>
                 <Label htmlFor="exportTurnover">Annual Export Turnover (USD)</Label>
-                <Select value={formData.exportTurnover} onValueChange={(value) => handleInputChange('exportTurnover', value)}>
+                <Select value={formData.exportTurnoverAmount} onValueChange={(value) => handleInputChange('exportTurnoverAmount', value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select range" />
                   </SelectTrigger>
