@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -62,8 +61,8 @@ const BuyerOnboarding = () => {
     sustainabilityRequirements: '',
     
     // International Trade & Licensing
-    importLicense: '',
-    exportLicense: '',
+    importLicenseNumber: '',
+    exportLicenseNumber: '',
     ieCode: '',
     eoriNumber: '',
     customsRegistration: '',
